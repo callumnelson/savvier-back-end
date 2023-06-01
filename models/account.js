@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Account.init({
     name: {
       type: DataTypes.STRING,
+      unique: true,
     },
     type: {
       type: DataTypes.ENUM,
