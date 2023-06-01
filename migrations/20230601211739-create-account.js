@@ -11,7 +11,6 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        unique: true,
       },
       type: {
         type: Sequelize.ENUM,
