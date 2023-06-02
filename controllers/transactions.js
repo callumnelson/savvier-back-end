@@ -1,5 +1,4 @@
-const { Account, Transaction } = require('../models')
-const currency = require('currency.js')
+const { Transaction } = require('../models')
 
 const update = async (req, res) => {
   try {

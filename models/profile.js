@@ -18,10 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'profileId',
         as: 'profileTransactions'
       })
-      Profile.hasMany(models.Scenario, { 
-        foreignKey: 'profileId',
-        as: 'scenarios'
-      })
     }
   }
 
