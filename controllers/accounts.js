@@ -24,6 +24,18 @@ const index = async (req, res) => {
   }
 }
 
+const deleteAccount = async (req, res) => {
+  try {
+    const numRemoved = await Account.destroy({
+      where: { id: req.params.accountId }
+    })
+    res.status(200).json(numRemoved)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ err })
+  }
+}
+
 const createTransactions = async (req, res) => {
   try {
     req.body.transactions.forEach( t => {
@@ -52,5 +64,6 @@ const createTransactions = async (req, res) => {
 module.exports = {
   create,
   index,
-  createTransactions
+  createTransactions,
+  delete: deleteAccount
 }
