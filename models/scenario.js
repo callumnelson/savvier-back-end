@@ -3,27 +3,24 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Account extends Model {
+  class Scenario extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Account.belongsTo(models.Profile, { foreignKey: 'profileId' })
-      Account.hasMany(models.Transaction, { 
-        foreignKey: 'profileId',
-        as: 'accountTransactions'
-      })
+      Scenario.belongsTo(models.Profile, { foreignKey: 'profileId' })
     }
   }
-  Account.init({
+  Scenario.init({
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
-    type: {
-      type: DataTypes.ENUM,
-      values: ['Credit Card', 'Checking', 'Savings', 'Other']
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     profileId: {
       type: DataTypes.INTEGER,
@@ -34,9 +31,15 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       }
     },
+    amount: {
+      type: DataTypes.FLOAT,
+      validate: {
+        min: 0,
+      }
+    },
   }, {
     sequelize,
-    modelName: 'Account',
+    modelName: 'Scenario',
   });
-  return Account;
+  return Scenario;
 };
