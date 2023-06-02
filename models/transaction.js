@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Transaction.belongsTo(models.Account, { foreignKey: 'accountId' })
+      Transaction.belongsTo(models.Profile, { foreignKey: 'profileId' })
     }
   }
   Transaction.init({
@@ -20,6 +21,15 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       references: {
         model: 'Accounts',
+        key: 'id'
+      }
+    },
+    profileId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Profiles',
         key: 'id'
       }
     },

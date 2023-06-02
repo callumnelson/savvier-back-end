@@ -18,6 +18,15 @@ module.exports = {
           key: 'id'
         }
       },
+      profileId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Profiles',
+          key: 'id'
+        }
+      },
       transactionDate: {
         type: Sequelize.DATE,
         allowNull: false,
