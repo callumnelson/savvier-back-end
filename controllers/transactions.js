@@ -26,7 +26,20 @@ const index = async (req, res) => {
   }
 }
 
+const deleteTransaction = async (req, res) => {
+  try {
+    const numRemoved = await Transaction.destroy({
+      where: { id: req.params.transactionId }
+    })
+    res.status(200).json(numRemoved)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ err })
+  }
+}
+
 module.exports = {
   update,
   index,
+  delete: deleteTransaction
 }

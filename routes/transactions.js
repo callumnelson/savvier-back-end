@@ -12,6 +12,7 @@ const { decodeUserFromToken, checkAuth } = middleware
 router.use(decodeUserFromToken)
 router.get('/', checkAuth, transactionsCtrl.index)
 router.put('/:transactionId', checkAuth, transactionsCtrl.update)
+router.delete('/:transactionId', checkAuth, transactionsCtrl.delete)
 
 
 module.exports = router
