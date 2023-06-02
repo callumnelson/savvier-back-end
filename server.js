@@ -9,6 +9,7 @@ const formData = require('express-form-data')
 const profilesRouter = require('./routes/profiles.js')
 const authRouter = require('./routes/auth.js')
 const accountsRouter = require('./routes/accounts.js')
+const transactionsRouter = require('./routes/transactions.js')
 
 // create the express app
 const app = express()
@@ -23,6 +24,7 @@ app.use(formData.parse())
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/accounts', accountsRouter)
+app.use('/api/transactions', transactionsRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {

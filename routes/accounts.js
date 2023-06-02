@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const accountsCtrl = require('../controllers/accounts.js')
 const middleware = require('../middleware/auth.js')
-const account = require('../models/account.js')
 
 const { decodeUserFromToken, checkAuth } = middleware
 
