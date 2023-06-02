@@ -1,4 +1,4 @@
-const { Account, Profile, Transaction } = require('../models')
+const { Account, Transaction } = require('../models')
 const currency = require('currency.js')
 
 const create = async (req, res) => {
@@ -27,6 +27,7 @@ const index = async (req, res) => {
 const createTransactions = async (req, res) => {
   try {
     req.body.transactions.forEach( t => {
+      t.profileId = req.user.profile.id
       t.accountId = parseInt(req.params.accountId)
       t.amount = currency(t.amount)
       t.codingStatus = 'Pending'
