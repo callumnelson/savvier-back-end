@@ -12,6 +12,19 @@ const create = async (req, res) => {
   }
 }
 
+const update = async (req, res) => {
+  try {
+    const account = await Account.update(
+      req.body,
+      { where: {id: req.params.accountId }, returning: true }
+    )
+    res.status(200).json(account)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ err })
+  }
+}
+
 const index = async (req, res) => {
   try {
     const accounts = await Account.findAll({
@@ -63,6 +76,7 @@ const createTransactions = async (req, res) => {
 
 module.exports = {
   create,
+  update,
   index,
   createTransactions,
   delete: deleteAccount

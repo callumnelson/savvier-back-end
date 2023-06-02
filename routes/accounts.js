@@ -13,6 +13,7 @@ router.use(decodeUserFromToken)
 router.get('/', checkAuth, accountsCtrl.index)
 router.post('/', checkAuth, accountsCtrl.create)
 router.post('/:accountId/create-transactions', checkAuth, accountsCtrl.createTransactions)
+router.put('/:accountId', checkAuth, accountsCtrl.update)
 router.delete('/:accountId', checkAuth, accountsCtrl.delete)
 
 
