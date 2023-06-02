@@ -32,6 +32,12 @@ module.exports = {
         type: Sequelize.ENUM,
         values: ['Pending', 'Saved']
       },
+      category: {
+        type: Sequelize.STRING,
+      },
+      subCategory: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

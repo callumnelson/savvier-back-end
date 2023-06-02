@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const accountsCtrl = require('../controllers/accounts.js')
 const middleware = require('../middleware/auth.js')
+const account = require('../models/account.js')
 
 const { decodeUserFromToken, checkAuth } = middleware
 
@@ -10,7 +11,9 @@ const { decodeUserFromToken, checkAuth } = middleware
 
 /* ---------------- PRIVATE ROUTES ------------- */
 router.use(decodeUserFromToken)
-router.post('/', checkAuth, accountsCtrl.createAccount)
+router.get('/', checkAuth, accountsCtrl.index)
+router.post('/', checkAuth, accountsCtrl.create)
+router.post('/:accountId/create-transactions', checkAuth, accountsCtrl.createTransactions)
 
 
 module.exports = router

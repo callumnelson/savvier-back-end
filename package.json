@@ -9,6 +9,7 @@
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.37.0",
     "cors": "^2.8.5",
+    "currency.js": "^2.0.4",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-form-data": "^2.0.22",
