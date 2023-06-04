@@ -15,8 +15,10 @@ async function getUserProfile(req, res) {
   try {
     const profile = await Profile.findByPk(
       req.user.profile.id,
-      { include: [{ model: Account, as: 'accounts'}] },
-      { include: [{ model: Transaction, as: 'profileTransactions'}] },
+      { include: [
+        { model: Account, as: 'accounts' }, 
+        { model: Transaction, as: 'profileTransactions' }
+      ]},
     )
     res.json(profile)
   } catch (err) {
