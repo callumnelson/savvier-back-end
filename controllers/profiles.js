@@ -1,10 +1,24 @@
-const { Profile } = require('../models')
+const { Profile, Account, Transaction } = require('../models')
 const cloudinary = require('cloudinary').v2
 
 async function index(req, res) {
   try {
     const profiles = await Profile.findAll()
     res.json(profiles)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err)
+  }
+}
+
+async function getUserProfile(req, res) {
+  try {
+    const profile = await Profile.findByPk(
+      req.user.profile.id,
+      { include: [{ model: Account, as: 'accounts'}] },
+      { include: [{ model: Transaction, as: 'profileTransactions'}] },
+    )
+    res.json(profile)
   } catch (err) {
     console.log(err)
     res.status(500).json(err)
@@ -30,4 +44,4 @@ async function addPhoto(req, res) {
   }
 }
 
-module.exports = { index, addPhoto }
+module.exports = { index, addPhoto, getUserProfile }

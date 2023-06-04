@@ -10,6 +10,7 @@ const { decodeUserFromToken, checkAuth } = middleware
 /*---------- Protected Routes ----------*/
 router.use(decodeUserFromToken)
 router.get('/', checkAuth, profilesCtrl.index)
+router.get('/get-user-profile', checkAuth, profilesCtrl.getUserProfile)
 router.put('/:id/add-photo', checkAuth, profilesCtrl.addPhoto)
 
 module.exports = router
