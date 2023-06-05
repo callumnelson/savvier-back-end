@@ -20,7 +20,7 @@ async function getUserProfile(req, res) {
         { model: Transaction, as: 'profileTransactions' }
       ]},
     )
-    res.json(profile)
+    res.status(200).json(profile)
   } catch (err) {
     console.log(err)
     res.status(500).json(err)
