@@ -2,11 +2,11 @@ const { Transaction } = require('../models')
 
 const update = async (req, res) => {
   try {
-    const transaction = await Transaction.update(
+    const [numUpdated, transactions] = await Transaction.update(
       req.body,
       { where: {id: req.params.transactionId }, returning: true }
     )
-    res.status(200).json(transaction)
+    res.status(200).json(transactions[0])
   } catch (err) {
     console.log(err)
     res.status(500).json({ err })
