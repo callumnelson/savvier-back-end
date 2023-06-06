@@ -56,8 +56,8 @@ const createTransactions = async (req, res) => {
       t.accountId = parseInt(req.params.accountId)
       t.amount = currency(t.amount)
       t.codingStatus = 'Pending'
-      t.category = '-'
-      t.subCategory = '-'
+      t.category = t.category ?? '-'
+      t.subCategory = t.subCategory ?? '-'
       t.description = t.description.replace(/\s+/g, ' ')
       t.transactionDate = new Date(t.transactionDate)
     })
