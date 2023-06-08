@@ -24,21 +24,6 @@ const update = async (req, res) => {
   }
 }
 
-const index = async (req, res) => {
-  try {
-    const categories = await Category.findAll({
-      where: { profileId: req.user.profile.id },
-      include: [
-        { model: SubCategory, as: 'subCategories' }, 
-      ]
-    })
-    res.status(200).json(categories)
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({ err })
-  }
-}
-
 const deleteCategory = async (req, res) => {
   try {
     const numRemoved = await Category.destroy({
@@ -54,6 +39,5 @@ const deleteCategory = async (req, res) => {
 module.exports = {
   create,
   update,
-  index,
   delete: deleteCategory,
 }

@@ -10,7 +10,6 @@ const { decodeUserFromToken, checkAuth } = middleware
 
 /* ---------------- PRIVATE ROUTES ------------- */
 router.use(decodeUserFromToken)
-router.get('/', checkAuth, categoriesCtrl.index)
 router.post('/', checkAuth, categoriesCtrl.create)
 router.put('/:categoryId', checkAuth, categoriesCtrl.update)
 router.delete('/:categoryId', checkAuth, categoriesCtrl.delete)
