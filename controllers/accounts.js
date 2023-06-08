@@ -51,13 +51,11 @@ const deleteAccount = async (req, res) => {
 
 const createTransactions = async (req, res) => {
   try {
-    console.log(req.body.transactions)
     req.body.transactions.forEach( t => {
       t.profileId = req.user.profile.id
       t.accountId = parseInt(req.params.accountId)
       t.amount = currency(t.amount)
       t.codingStatus = 'Pending'
-      console.log(t.category)
       t.category = t.category ?? '-'
       t.subCategory = t.subCategory ?? '-'
       t.description = t.description.replace(/\s+/g, ' ')
