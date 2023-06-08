@@ -3,27 +3,23 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Account extends Model {
+  class Category extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Account.belongsTo(models.Profile, { foreignKey: 'profileId' })
-      Account.hasMany(models.Transaction, { 
-        foreignKey: 'accountId',
-        as: 'accountTransactions'
+      Category.belongsTo(models.Profile, { foreignKey: 'profileId' })
+      Category.hasMany(models.SubCategory, { 
+        foreignKey: 'categoryId',
+        as: 'subCategories'
       })
     }
   }
-  Account.init({
+  Category.init({
     name: {
       type: DataTypes.STRING,
-    },
-    type: {
-      type: DataTypes.ENUM,
-      values: ['Credit Card', 'Checking', 'Savings', 'Other']
     },
     profileId: {
       type: DataTypes.INTEGER,
@@ -36,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Account',
+    modelName: 'Category',
   });
-  return Account;
+  return Category;
 };
