@@ -213,7 +213,7 @@ function createFakeTransactions(newProfile) {
         category: 'Income',
         subCategory: 'Paycheck',
         description: 'Direct Deposit from Your Employer',
-        transactionDate: new Date(`${month}/01/2023`)
+        transactionDate: new Date(`${month}/01/2022`)
       }
       transactions.push(trans)
     }
@@ -230,7 +230,7 @@ function createFakeTransactions(newProfile) {
           category: catFormatted,
           subCategory: subCat,
           description: `A random purchase in category: ${catFormatted}`,
-          transactionDate: new Date(`${month}/01/2023`)
+          transactionDate: new Date(`${month}/01/2022`)
         }
         transactions.push(trans)
       }
