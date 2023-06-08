@@ -13,16 +13,24 @@ async function index(req, res) {
 
 async function getUserProfile(req, res) {
   try {
-    const profile = await Profile.findByPk(
-      req.user.profile.id,
-      { include: [
-        { model: Account, as: 'accounts' }, 
-        { model: Transaction, as: 'profileTransactions' },
-        { model: Category, as: 'categories', include: {
-            model: SubCategory, as: 'subCategories'
-        }}
-      ]},
+    const results = await Promise.all([
+        Profile.findByPk(
+          req.user.profile.id,
+          { include: [
+            { model: Account, as: 'accounts' }, 
+            { model: Transaction, as: 'profileTransactions' },
+          ]},
+        ),
+        Category.findAll({
+          where: { profileId: req.user.profile.id },
+          include: [
+            { model: SubCategory, as: 'subCategories'}
+          ]
+        })
+      ]
     )
+    const [profile, categories] = results
+    profile.dataValues.categories = categories
     res.status(200).json(profile)
   } catch (err) {
     console.log(err)
