@@ -11,6 +11,17 @@ const create = async (req, res) => {
   }
 }
 
+const createSubCategory = async (req, res) => {
+  try {
+    req.body.categoryId = req.params.categoryId
+    const subCategory = await SubCategory.create(req.body)
+    res.status(200).json(subCategory)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ err })
+  }
+}
+
 const update = async (req, res) => {
   try {
     const category = await Category.update(
@@ -38,6 +49,7 @@ const deleteCategory = async (req, res) => {
 
 module.exports = {
   create,
+  createSubCategory,
   update,
   delete: deleteCategory,
 }

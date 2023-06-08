@@ -1,16 +1,5 @@
 const { SubCategory } = require('../models')
 
-const create = async (req, res) => {
-  try {
-    req.body.profileId = req.user.profile.id
-    const subCategory = await SubCategory.create(req.body)
-    res.status(200).json(subCategory)
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({ err })
-  }
-}
-
 const update = async (req, res) => {
   try {
     const subCategory = await SubCategory.update(
@@ -37,7 +26,6 @@ const deleteSubCategory = async (req, res) => {
 }
 
 module.exports = {
-  create,
   update,
   delete: deleteSubCategory,
 }
