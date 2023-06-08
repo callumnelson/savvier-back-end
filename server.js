@@ -10,6 +10,8 @@ const profilesRouter = require('./routes/profiles.js')
 const authRouter = require('./routes/auth.js')
 const accountsRouter = require('./routes/accounts.js')
 const transactionsRouter = require('./routes/transactions.js')
+const categoriesRouter = require('./routes/categories.js')
+const subCategoriesRouter = require('./routes/subCategories.js')
 
 // create the express app
 const app = express()
@@ -25,6 +27,8 @@ app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/accounts', accountsRouter)
 app.use('/api/transactions', transactionsRouter)
+app.use('/api/categories', categoriesRouter)
+app.use('/api/sub-categories', subCategoriesRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {

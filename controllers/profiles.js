@@ -1,4 +1,4 @@
-const { Profile, Account, Transaction } = require('../models')
+const { Profile, Account, Transaction, Category, SubCategory } = require('../models')
 const cloudinary = require('cloudinary').v2
 
 async function index(req, res) {
@@ -17,7 +17,10 @@ async function getUserProfile(req, res) {
       req.user.profile.id,
       { include: [
         { model: Account, as: 'accounts' }, 
-        { model: Transaction, as: 'profileTransactions' }
+        { model: Transaction, as: 'profileTransactions' },
+        { model: Category, as: 'categories', include: {
+            model: SubCategory, as: 'subCategories'
+        }}
       ]},
     )
     res.status(200).json(profile)
