@@ -20,7 +20,7 @@ async function signup(req, res) {
     fakeAccounts.checking.profileId = newProfile.id
     fakeAccounts.creditCard.profileId = newProfile.id
     const checking = await Account.create(fakeAccounts.checking)
-    const creditCard = await Account.create(fakeAccounts.checking)
+    const creditCard = await Account.create(fakeAccounts.creditCard)
     fakeAccounts.checking.id = checking.dataValues.id
     fakeAccounts.creditCard.id = creditCard.dataValues.id
 
@@ -283,8 +283,8 @@ function createFakeTransactions(newProfile) {
       for (let cat of categoriesMap){
         // Create transactions for non-income categories
         if (cat.category !== 'Income' && cat.category !== '-'){
-          let subCat = cat.subCategories[
-            Math.floor(Math.random()*cat.subCategories.length)
+          let subCat = cat.subCategories.slice(1)[
+            Math.floor(Math.random()*(cat.subCategories.length-1))
           ]
           let trans = {
             profileId: newProfile.id,

@@ -1,4 +1,4 @@
-const { SubCategory } = require('../models')
+const { SubCategory, Transaction } = require('../models')
 
 const update = async (req, res) => {
   try {
@@ -15,10 +15,22 @@ const update = async (req, res) => {
 
 const deleteSubCategory = async (req, res) => {
   try {
-    const numRemoved = await SubCategory.destroy({
+    const subCategory = await SubCategory.findByPk(
+      req.params.subCategoryId
+    )
+    const affectedTransactions = await Transaction.findAll({
+      where: {subCategory: subCategory.name}
+    })
+    await Promise.all(affectedTransactions.map(t => {
+      Transaction.update(
+        {...t, subCategory: '-'},
+        { where: {id: t.id }, returning: true }
+      )
+    }))
+    await SubCategory.destroy({
       where: { id: req.params.subCategoryId }
     })
-    res.status(200).json(numRemoved)
+    res.status(200).json(affectedTransactions)
   } catch (err) {
     console.log(err)
     res.status(500).json({ err })
