@@ -1,4 +1,4 @@
-const { User, Profile, Account, Transaction } = require('../models')
+const { User, Profile, Account, Transaction, Category, SubCategory } = require('../models')
 const jwt = require('jsonwebtoken')
 
 async function signup(req, res) {
@@ -24,9 +24,28 @@ async function signup(req, res) {
     fakeAccounts.checking.id = checking.dataValues.id
     fakeAccounts.creditCard.id = creditCard.dataValues.id
 
+    // Create default schema
+    await Promise.all([
+      categoriesMap.map( async (cat) => {
+        const newCategory = await Category.create({
+          profileId: newProfile.id,
+          name: cat.category
+        })
+        await Promise.all([
+          cat.subCategories.map( async (sub) => {
+            SubCategory.create({
+              categoryId: newCategory.id,
+              name: sub
+            })
+          })
+        ])
+      })
+    ])
+
     // Create dummy transactions
     const transactions = createFakeTransactions(newProfile)
-    const fakeTransactions = await Transaction.bulkCreate(
+
+    await Transaction.bulkCreate(
       transactions,
       { validate: true }
     )
@@ -117,88 +136,135 @@ const fakeAccounts = {
 
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-const subCategories = {
-  fun: [
-    'Events',
-    'Vacations/Travel',
-    'Eating out',
-    'Alcohol',
-    'Activities'
-  ],
-  foodNecessities: [ 'Groceries', 'Pet food', 'CVS' ],
-  housing: [
-    'Mortgage or Rent',
-    'Property taxes',
-    'Household repairs',
-    'HOA fees',
-    'Cleaning'
-  ],
-  transportation: [
-    'Car maintenance',
-    'Gas',
-    'Public Transit',
-    'Registration',
-    'Car payments'
-  ],
-  utilities: [ 'Gas/Electric', 'Water', 'Phones', 'Cable/Internet' ],
-  medicalHealth: [
-    'Primary care',
-    'Dental care',
-    'Specialty care',
-    'Urgent care',
-    'Medications',
-    'Prescriptions',
-    'Devices/Supplies'
-  ],
-  savings: [
-    'Down Payment',
-    'Closing Costs',
-    'Furniture',
-    'Moving expenses',
-    'Honeymoon',
-    'Wedding',
-    'Investments',
-    'Taxes',
-    'Cash',
-    'Grad School'
-  ],
-  insurance: [
-    'Health insurance',
-    'Home insurance',
-    'Car insurance',
-    'Life insurance',
-    'Disability insurance'
-  ],
-  personal: [
-    'Memberships/subscriptions',
-    'Clothes',
-    'Shoes',
-    'Gifts',
-    'Donations',
-    'Workout stuff',
-    'Self care',
-    'Online shopping',
-    'Other shopping',
-    'Home goods'
-  ],
-  misc: [ 'Small things', 'Work purchases', 'Other', 'Tax Completion' ],
-}
-
-const categoriesMap = [ 
-  {value: 'Uncoded', schemaName: 'uncoded'}, 
-  {value: 'Fun', schemaName: 'fun'}, 
-  {value: 'Food/Necessities', schemaName: 'foodNecessities'},	
-  {value: 'Housing', schemaName: 'housing'},
-  {value: 'Income', schemaName: 'income'},
-  {value: 'Insurance', schemaName: 'insurance'},
-  {value: 'Medical/Health', schemaName: 'medicalHealth'},
-  {value: 'Misc', schemaName: 'misc'},
-  {value: 'Personal', schemaName: 'personal'}, 
-  {value: 'Savings', schemaName: 'savings'},
-  {value: 'Transportation', schemaName: 'transportation'},
-  {value: 'Utilities', schemaName: 'utilities'},
-  {value: 'Exclude', schemaName: 'exclude'}
+const categoriesMap = [
+  {
+    category: 'Income',
+    subCategories: [
+      'Paycheck',
+      'Investment',
+      'Gift'
+    ]
+  },
+  {
+    category: 'Fun',
+    subCategories: [
+      'Events',
+      'Vacations/Travel',
+      'Eating Out',
+      'Alcohol',
+      'Activities'
+    ],
+  },
+  {
+    category: 'Housing',
+    subCategories: [
+      'Mortgage or Rent',
+      'Property Taxes',
+      'Household Repairs',
+      'HOA Fees',
+      'Cleaning'
+    ]
+  },
+  {
+    category: 'Transportation',
+    subCategories: [
+      'Car Maintenance',
+      'Gas',
+      'Public Transit',
+      'Registration',
+      'Car Payments'
+    ],
+  },
+  {
+    category: 'Utilities',
+    subCategories: [ 
+      'Gas/Electric', 
+      'Water', 
+      'Phones', 
+      'Cable/Internet' 
+    ],
+  },
+  {
+    category: 'Medical/Health',
+    subCategories: [
+      'Primary Care',
+      'Dental Care',
+      'Specialty Care',
+      'Urgent Care',
+      'Medications',
+      'Prescriptions',
+      'Devices/Supplies'
+    ],
+  },
+  {
+    category: 'Savings',
+    subCategories: [
+      'Down Payment',
+      'One Time Emergency',
+      'Furniture',
+      'Moving Expenses',
+      'Grad School'
+    ],
+  },
+  {
+    category: 'Insurance',
+    subCategories: [
+      'Health Insurance',
+      'Home Insurance',
+      'Car Insurance',
+      'Life Insurance',
+      'Disability Insurance'
+    ],
+  },
+  {
+    category: 'Personal',
+    subCategories: [
+      'Memberships/subscriptions',
+      'Clothes',
+      'Shoes',
+      'Gifts',
+      'Donations',
+      'Self Care',
+      'Online Shopping',
+      'Other Shopping',
+      'Home Goods'
+    ],
+  },
+  {
+    category: 'Misc',
+    subCategories: [ 
+      'Small Things', 
+      'Other',
+    ],
+  },
+  {
+    category: 'Exclude',
+    subCategories: [
+      'Payment',
+      'Transfer'
+    ]
+  },
+  {
+    category: 'Uncoded',
+    subCategories: ['-']
+  }
 ]
+
+// const categoriesMap = [ 
+//   {value: 'Uncoded', schemaName: 'uncoded'}, 
+//   {value: 'Fun', schemaName: 'fun'}, 
+//   {value: 'Food/Necessities', schemaName: 'foodNecessities'},	
+//   {value: 'Housing', schemaName: 'housing'},
+//   {value: 'Income', schemaName: 'income'},
+//   {value: 'Insurance', schemaName: 'insurance'},
+//   {value: 'Medical/Health', schemaName: 'medicalHealth'},
+//   {value: 'Misc', schemaName: 'misc'},
+//   {value: 'Personal', schemaName: 'personal'}, 
+//   {value: 'Savings', schemaName: 'savings'},
+//   {value: 'Transportation', schemaName: 'transportation'},
+//   {value: 'Utilities', schemaName: 'utilities'},
+//   {value: 'Exclude', schemaName: 'exclude'}
+// ]
 
 function createFakeTransactions(newProfile) {
   const transactions = []
@@ -217,22 +283,25 @@ function createFakeTransactions(newProfile) {
       }
       transactions.push(trans)
     }
-    const categories = Object.keys(subCategories)
     for (let i = 0; i < 5; i++){
-      for (let cat of categories){
-        let subCat = subCategories[cat][Math.floor(Math.random()*subCategories[cat].length)]
-        let catFormatted = categoriesMap.find(c => c.schemaName === cat).value
-        let trans = {
-          profileId: newProfile.id,
-          accountId: fakeAccounts.creditCard.id,
-          amount: -(Math.random()*100 + 5),
-          codingStatus: 'Pending',
-          category: catFormatted,
-          subCategory: subCat,
-          description: `A random purchase in category: ${catFormatted}`,
-          transactionDate: new Date(`${month}/01/2022`)
+      for (let cat of categoriesMap){
+        // Create transactions for non-income categories
+        if (cat.category !== 'Income'){
+          let subCat = cat.subCategories[
+            Math.floor(Math.random()*cat.subCategories.length)
+          ]
+          let trans = {
+            profileId: newProfile.id,
+            accountId: fakeAccounts.creditCard.id,
+            amount: -(Math.random()*100 + 5),
+            codingStatus: 'Pending',
+            category: cat.category,
+            subCategory: subCat,
+            description: `A random transaction in category: ${cat.category}`,
+            transactionDate: new Date(`${month}/01/2022`)
+          }
+          transactions.push(trans)
         }
-        transactions.push(trans)
       }
     }
   })
