@@ -185,7 +185,7 @@ const subCategories = {
 }
 
 const categoriesMap = [ 
-  {value: '-', schemaName: 'uncoded'}, 
+  {value: 'Uncoded', schemaName: 'uncoded'}, 
   {value: 'Fun', schemaName: 'fun'}, 
   {value: 'Food/Necessities', schemaName: 'foodNecessities'},	
   {value: 'Housing', schemaName: 'housing'},
