@@ -138,8 +138,13 @@ const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 const categoriesMap = [
   {
+    category: '-',
+    subCategories: ['-']
+  },
+  {
     category: 'Income',
     subCategories: [
+      '-',
       'Paycheck',
       'Investment',
       'Gift'
@@ -148,6 +153,7 @@ const categoriesMap = [
   {
     category: 'Fun',
     subCategories: [
+      '-',
       'Events',
       'Vacations/Travel',
       'Eating Out',
@@ -158,6 +164,7 @@ const categoriesMap = [
   {
     category: 'Housing',
     subCategories: [
+      '-',
       'Mortgage or Rent',
       'Property Taxes',
       'Household Repairs',
@@ -168,6 +175,7 @@ const categoriesMap = [
   {
     category: 'Transportation',
     subCategories: [
+      '-',
       'Car Maintenance',
       'Gas',
       'Public Transit',
@@ -178,6 +186,7 @@ const categoriesMap = [
   {
     category: 'Utilities',
     subCategories: [ 
+      '-',
       'Gas/Electric', 
       'Water', 
       'Phones', 
@@ -187,6 +196,7 @@ const categoriesMap = [
   {
     category: 'Medical/Health',
     subCategories: [
+      '-',
       'Primary Care',
       'Dental Care',
       'Specialty Care',
@@ -199,6 +209,7 @@ const categoriesMap = [
   {
     category: 'Savings',
     subCategories: [
+      '-',
       'Down Payment',
       'One Time Emergency',
       'Furniture',
@@ -209,6 +220,7 @@ const categoriesMap = [
   {
     category: 'Insurance',
     subCategories: [
+      '-',
       'Health Insurance',
       'Home Insurance',
       'Car Insurance',
@@ -219,6 +231,7 @@ const categoriesMap = [
   {
     category: 'Personal',
     subCategories: [
+      '-',
       'Memberships/subscriptions',
       'Clothes',
       'Shoes',
@@ -233,6 +246,7 @@ const categoriesMap = [
   {
     category: 'Misc',
     subCategories: [ 
+      '-',
       'Small Things', 
       'Other',
     ],
@@ -240,31 +254,13 @@ const categoriesMap = [
   {
     category: 'Exclude',
     subCategories: [
+      '-',
       'Payment',
       'Transfer'
     ]
   },
-  {
-    category: 'Uncoded',
-    subCategories: ['-']
-  }
-]
 
-// const categoriesMap = [ 
-//   {value: 'Uncoded', schemaName: 'uncoded'}, 
-//   {value: 'Fun', schemaName: 'fun'}, 
-//   {value: 'Food/Necessities', schemaName: 'foodNecessities'},	
-//   {value: 'Housing', schemaName: 'housing'},
-//   {value: 'Income', schemaName: 'income'},
-//   {value: 'Insurance', schemaName: 'insurance'},
-//   {value: 'Medical/Health', schemaName: 'medicalHealth'},
-//   {value: 'Misc', schemaName: 'misc'},
-//   {value: 'Personal', schemaName: 'personal'}, 
-//   {value: 'Savings', schemaName: 'savings'},
-//   {value: 'Transportation', schemaName: 'transportation'},
-//   {value: 'Utilities', schemaName: 'utilities'},
-//   {value: 'Exclude', schemaName: 'exclude'}
-// ]
+]
 
 function createFakeTransactions(newProfile) {
   const transactions = []
@@ -286,7 +282,7 @@ function createFakeTransactions(newProfile) {
     for (let i = 0; i < 5; i++){
       for (let cat of categoriesMap){
         // Create transactions for non-income categories
-        if (cat.category !== 'Income'){
+        if (cat.category !== 'Income' && cat.category !== '-'){
           let subCat = cat.subCategories[
             Math.floor(Math.random()*cat.subCategories.length)
           ]
