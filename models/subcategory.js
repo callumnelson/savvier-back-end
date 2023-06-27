@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       }
     },
+    goal: {
+      type: DataTypes.INTEGER,
+      defaultValue: -1,
+    }
   }, {
     sequelize,
     modelName: 'SubCategory',
